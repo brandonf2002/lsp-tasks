@@ -12,8 +12,11 @@ fun showProgress(count, total) client {
  )
 }
 
-# Complete this function
 fun compute(count, total) client {
+ if (count < total) {
+  showProgress(count, total);
+  compute(computeStep(count), total)
+ } else "done counting to " ^^ intToString(total)
 }
 
 fun showAnswer(answer) client {

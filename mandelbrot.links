@@ -18,7 +18,7 @@ fun draw(colour, id) client {
                              top: {intToString(2*y)}px"> </div>,
                  getNodeById(id))
   };
-  draw(color, id)
+  draw(colour, id)
 }
 
 # Create a canvas and return its process id to the calling process.
@@ -38,7 +38,7 @@ fun range(f, t) {
   else f :: range(f+1, t)
 }
 
-fun burning_ship(x, y) {
+fun mandelbrot(x, y) {
   var cr = y -. 0.5;
   var ci = x;
   var zi = 0.0;
@@ -51,15 +51,15 @@ fun burning_ship(x, y) {
       var zi2 = zi *. zi;
       var zr = zr2 -. zi2 +. cr;
       var zi = temp +. temp +. ci;
-      if (zi2 + zr2 > bailout)  i
+      if (zi2 +. zr2 > bailout)  i
       else if (i > max_iterations) 0
       else loop(zr, zi, i)
-  };
+  }
   loop(zr, zi, i)
 }
 
 fun makefreshname(colour, n) client {
-  var name = colour ^ intToString(n);
+  var name = colour ^^ intToString(n);
   if(isNull(getNodeById(name)))
     name
   else
@@ -76,13 +76,13 @@ fun iterate(colour) client {
   for (y <- range(-39, 39)) {
     ignore(
     for (x <- range(-39,39)) {
-      (if (burning_ship(intToFloat(x)/.40.0, intToFloat(y)/.40.0) == 0) (c ! Point (x+39,y+39))
+      (if (mandelbrot(intToFloat(x)/.40.0, intToFloat(y)/.40.0) == 0) (c ! Point (x+39,y+39))
        else ()); []
     }); []
   }
 }
 
-var colors = ["red", "green", "blue", "black", "orange", "purple"];
+var colours = ["red", "green", "blue", "black", "orange", "purple"];
 
 fun main() {
   page

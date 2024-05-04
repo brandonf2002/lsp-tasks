@@ -1,7 +1,7 @@
 # multiple.links
 fun withSubmit(f) {
   formlet
-    <#>{form -> v}{submit("Submit")}</#>
+    <#>{f -> v}{submit("Submit")}</#>
   yields
     v
 }
@@ -9,8 +9,8 @@ fun withSubmit(f) {
 fun enterNumbers(n) {
   page
    <html>
-     <h1>Enter {intToHtml(n)} numbers:</h1>
-     {withsubmit(formlets(replicate(n, inputInt))) =>
+     <h1>Enter {intToXml(n)} numbers:</h1>
+     {withSubmit(formlets(replicate(n, inputInt))) =>
         fun (xs) {page <html><body>{intToXml(sum(xs))}</body></html>}}
    </html>
 }
@@ -18,9 +18,9 @@ fun enterNumbers(n) {
 fun main() {
   page
     <html>
-    <h1>Multiple</h2>
+    <h1>Multiple</h1>
     Enter numbers: {withSubmit(inputInt) => enterNumbers}
-    <html>
+    </html>
 }
 
-main();
+main()
