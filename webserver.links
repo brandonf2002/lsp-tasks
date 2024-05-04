@@ -1,0 +1,24 @@
+import ExamplesPage;
+import Mandelbrot;
+import Sillyprogress;
+import Multiple;
+import Todo;
+
+fun main() {
+
+  # addRoute("/examples/progress.links", fun(_) {Progress.main()});
+
+  # addRoute("/examples/factorial.links", fun(_) {Factorial.main()});
+  # addRoute("/examples/dictionary/dictSuggest.links", fun(_){DictSuggest.main()});
+  # addRoute("/examples/dictionary/dictSuggestLite.links", fun(_){DictSuggestLite.main()});
+
+  addRoute("/mandelbrot.links", fun(_) {Mandelbrot.main()});
+  addRoute("/multiple.links", fun(_) {Multiple.main()});
+  addRoute("/sillyprogess.links", fun(_) {Sillyprogress.main()});
+  addRoute("/todo.links", fun(_) {Todo.main()});
+
+  addRoute("/", fun(_) { ExamplesPage.main() });
+  servePages()
+}
+
+main()

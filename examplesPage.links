@@ -1,0 +1,82 @@
+fun main() {
+  var _ = spawnClient {
+    var frame = getNodeById("exampleFrame");
+    var nav = getNodeById("navigation");
+    var loadingOverlay = getNodeById("loadingOverlay");
+
+    fun isMobile() {
+      var navWidth = stringToInt(domGetPropertyFromRef(nav, "offsetWidth"));
+      var bodyWidth = stringToInt(domGetPropertyFromRef(getNodeById("container"), "offsetWidth"));
+      not(navWidth < (bodyWidth / 2))
+    }
+
+    fun replaceExample(url) {
+      var exampleUrl = "/" ^^ url;
+      domSetStyleAttrFromRef(loadingOverlay, "display", "flex");
+      if (isMobile()) {
+        redirect(exampleUrl)
+      } else {
+        domSetPropertyFromRef(frame, "data", exampleUrl)
+      }
+    }
+
+    fun interceptNavigation() {
+      var anchor = domGetAnchor();
+      if (anchor <> "") {
+        var newLoc = implode(tl(explode(anchor)));
+        replaceExample(newLoc)
+      } else {
+        ()
+      }
+    }
+
+    jsSetOnEvent(frame, "load", fun(_) {
+      domSetStyleAttrFromRef(loadingOverlay, "display", "none")
+    }, false);
+    jsSetWindowEvent("hashchange", fun(_) {
+      interceptNavigation()
+    }, false)
+  };
+
+  page
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Links examples</title>
+        <link rel="stylesheet" type="text/css" href="/examples/css/doc.css" />
+      </head>
+      <body>
+        <div id="container">
+          <header>
+            <h1>Links</h1>
+          </header>
+          <nav id="navigation">
+            <ul>
+              <li>
+                <a class="frame-link" href="/mandelbrot.links" >Mandelbrot sets</a>
+                <a href="/mandelbrot.links" target="_blank">source</a>
+              </li>
+              <li>
+                <a class="frame-link" href="/todo.links" >Todo List</a>
+                <a href="/todo.links" target="_blank">source</a>
+              </li>
+              <li>
+                <a class="frame-link" href="/multiple.links" >Multiple</a>
+                <a href="/multiple.links" target="_blank">source</a>
+              </li>
+              <li>
+                <a class="frame-link" href="/sillyprogess.links" >Silly Progress</a>
+                <a href="/sillyprogess.links" target="_blank">source</a>
+              </li>
+            </ul>
+          </nav>
+          <main>
+            <object type="text/html" id="exampleFrame"></object>
+          </main>
+        </div>
+      </body>
+    </html>
+}
+
+main()
